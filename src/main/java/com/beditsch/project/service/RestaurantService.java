@@ -1,6 +1,5 @@
 package com.beditsch.project.service;
 
-import com.beditsch.project.dao.RestaurantDao;
 import com.beditsch.project.exception.OrderNotFoundException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
 import com.beditsch.project.model.Order;
