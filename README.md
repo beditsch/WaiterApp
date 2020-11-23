@@ -14,6 +14,7 @@ a następnie uruchomić go komendą:
 ```
 java -jar path/to/file
 ```
+Serwer będzie działał na porcie 8080.
 ## Testowanie prototypu
 W celu przetestowania dodawania nowego zamówienia, usuwania istniejącego i obsługi błędów związanych z tymi czynnościami można skorzystać z requestów GET, POST, DELETE.
 Przykładowe zapytania są dostępne pod poniższym linkiem:
