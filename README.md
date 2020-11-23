@@ -7,8 +7,11 @@ Celem projektu jest zbudowanie Backendu aplikacji do obsługi klienta w restaura
 Prototyp realizuje między innymi obsługę tworzenia i usuwania zamówienia.
 
 ## Uruchamianie prototypu
-W repozytorium umieszczone są pliki źródłowe projektu. W celu łatwego uruchomienia można pobrać plik .jar z projektem:
-> https://drive.google.com/file/d/1DncBCFjGucHxHGJY5KXsA14XZ0hVxEVR/view?usp=sharing
+W repozytorium umieszczone są pliki źródłowe projektu.
+W celu uruchomienia należy w folderze projektu skorzystać z komendy:
+```
+mvn spring-boot:run
+```
 
 a następnie uruchomić go komendą:
 ```
