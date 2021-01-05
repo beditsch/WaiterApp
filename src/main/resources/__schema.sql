@@ -69,7 +69,7 @@ CREATE TABLE users
     user_id       NUMBER(4) AUTO_INCREMENT
         CONSTRAINT users_PK PRIMARY KEY,
     username      VARCHAR(50) NOT NULL,
-    password      VARCHAR(50) NOT NULL,
+    password      VARCHAR NOT NULL,
     restaurant_id NUMBER(4) REFERENCES restaurants (restaurant_id)
 );
 

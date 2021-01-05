@@ -6,18 +6,24 @@ import com.beditsch.project.model.User;
 import com.beditsch.project.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserSignUpResponse createUser(UserSignUpRequest newUser) {
         User user = new User();
         user.setUsername(newUser.getUsername());
-        user.setPassword(newUser.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
         User storedUser = userRepository.save(user);
 
@@ -28,4 +34,9 @@ public class UserService {
         return returnedUser;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        //TODO: implement method
+        return null;
+    }
 }
