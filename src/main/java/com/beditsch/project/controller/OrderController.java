@@ -1,6 +1,5 @@
 package com.beditsch.project.controller;
 
-import com.beditsch.project.dto.OrderRequest;
 import com.beditsch.project.exception.*;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Order;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("order")
@@ -75,7 +73,7 @@ public class OrderController {
         newOrder.setMealList(fullMealList);
 
         newOrder.setRestaurant(restaurantService.getRestaurantById(restaurantId));
-        return orderService.createNewOrder(newOrder);
+        return orderService.createOrder(newOrder);
     }
 
     @RequestMapping(

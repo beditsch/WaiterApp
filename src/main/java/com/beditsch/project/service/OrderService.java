@@ -39,7 +39,7 @@ public class OrderService {
         throw new OrderNotFoundException();
     }
 
-    public Order createNewOrder(Order order) {
+    public Order createOrder(Order order) {
         return orderRepository.save(order);
     }
 
