@@ -26,4 +26,14 @@ public class UserController {
 
         return userSignUpResponse;
     }
+
+    @RequestMapping(
+            method = RequestMethod.GET
+          //  produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String getUser() {
+        return "get user was called";
+    }
+
+
 }

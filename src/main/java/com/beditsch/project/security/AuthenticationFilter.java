@@ -1,7 +1,9 @@
 package com.beditsch.project.security;
 
+import com.beditsch.project.SpringApplicationContext;
 import com.beditsch.project.dto.UserSignInRequest;
 import com.beditsch.project.model.User;
+import com.beditsch.project.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -60,7 +62,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET )
                 .compact();
 
+        UserService userService = (UserService) SpringApplicationContext.getBean("userService");
+        User user = (User) userService.loadUserByUsername(username);
+
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        res.addHeader("UserID", String.valueOf(user.getId()));
     }
 
 }
