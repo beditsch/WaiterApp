@@ -40,10 +40,15 @@ public class OrderService {
             throw new OrderCannotBeDeletedException();
         }
         orderRepository.deleteById(orderId);
-
     }
 
+
     public Order createOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+
+    public Order updateOrder(Order order) {
         return orderRepository.save(order);
     }
 

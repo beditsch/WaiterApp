@@ -95,4 +95,45 @@ public class OrderController {
         orderService.deleteOrderById(orderId);
     }
 
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "{orderId}"
+    )
+    public Order updateOrderById(@PathVariable("orderId") int orderId, @RequestBody OrderRequest orderRequest) {
+        Order order = orderService.getOrderById(orderId);
+
+        if (order.getRestaurant().getId() != orderRequest.getRestaurantId())
+            throw new BadOrderRequestException();
+
+        if (order.getStatus() != 0) {
+            throw new OrderCannotBeUpdatedException();
+        }
+
+        //If table does not belong to this restaurant
+        Table table = tableService.getTableById(orderRequest.getTableId());
+        if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
+            throw new TableNotFoundException();
+
+        order.setTable(table);
+
+        //If any of the meals does not belong to this restaurant
+        Meal temporary;
+        List<Meal> fullMealList = new ArrayList<>();
+        for(Integer temp : orderRequest.getMealsIdList()) {
+            temporary = mealService.getMealById(temp);
+
+            if ((temporary.getRestaurant().getId() != orderRequest.getRestaurantId()) || !temporary.isAvailable())
+                throw new MealNotFoundException();
+
+            fullMealList.add(temporary);
+        }
+
+        order.setMealList(fullMealList);
+        return orderService.updateOrder(order);
+
+
+    }
+
+
 }
