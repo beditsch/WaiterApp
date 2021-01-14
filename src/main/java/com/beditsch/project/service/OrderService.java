@@ -1,5 +1,6 @@
 package com.beditsch.project.service;
 
+import com.beditsch.project.exception.OrderCannotBeDeletedException;
 import com.beditsch.project.exception.OrderNotFoundException;
 import com.beditsch.project.model.Order;
 import com.beditsch.project.repository.OrderRepository;
@@ -32,11 +33,14 @@ public class OrderService {
 
     public void deleteOrderById(Integer orderId){
         Optional<Order> order = orderRepository.findById(orderId);
-        if (order.isPresent()) {
-            orderRepository.deleteById(orderId);
-            return;
+        if (order.isEmpty()) {
+            throw new OrderNotFoundException();
         }
-        throw new OrderNotFoundException();
+        else if (order.get().getStatus() != 0) {
+            throw new OrderCannotBeDeletedException();
+        }
+        orderRepository.deleteById(orderId);
+
     }
 
     public Order createOrder(Order order) {

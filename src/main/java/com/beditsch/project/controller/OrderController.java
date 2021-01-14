@@ -88,9 +88,10 @@ public class OrderController {
 
     @RequestMapping(
             method = RequestMethod.DELETE,
-            path = "delete/{orderId}"
+            path = "{orderId}"
     )
     public void removeOrderById(@PathVariable("orderId") int orderId) {
+
         orderService.deleteOrderById(orderId);
     }
 
