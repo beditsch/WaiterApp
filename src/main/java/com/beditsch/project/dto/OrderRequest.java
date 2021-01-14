@@ -1,16 +1,11 @@
 package com.beditsch.project.dto;
 
-import com.beditsch.project.model.Meal;
-import com.beditsch.project.model.Order;
-import com.beditsch.project.model.Restaurant;
-import com.beditsch.project.model.Table;
-
 import java.util.List;
 
 public class OrderRequest {
-    private int restaurantId;
-    private int tableId;
-    private List<Meal> mealList;
+    private Integer restaurantId;
+    private Integer tableId;
+    private List<Integer> mealsIdList;
 
 
 
@@ -20,33 +15,33 @@ public class OrderRequest {
     public OrderRequest() {
     }
 
-    public OrderRequest(int restaurantId, int tableId, List<Meal> mealList) {
+    public OrderRequest(Integer restaurantId, Integer tableId, List<Integer> mealsIdList) {
         this.restaurantId = restaurantId;
         this.tableId = tableId;
-        this.mealList = mealList;
+        this.mealsIdList = mealsIdList;
     }
 
-    public int getRestaurantId() {
+    public Integer getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(int restaurantId) {
+    public void setRestaurantId(Integer restaurantId) {
         this.restaurantId = restaurantId;
     }
 
-    public int getTableId() {
+    public Integer getTableId() {
         return tableId;
     }
 
-    public void setTableId(int tableId) {
+    public void setTableId(Integer tableId) {
         this.tableId = tableId;
     }
 
-    public List<Meal> getMealList() {
-        return mealList;
+    public List<Integer> getMealsIdList() {
+        return mealsIdList;
     }
 
-    public void setMealList(List<Meal> mealList) {
-        this.mealList = mealList;
+    public void setMealsIdList(List<Integer> mealsIdList) {
+        this.mealsIdList = mealsIdList;
     }
 }

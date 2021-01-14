@@ -1,5 +1,6 @@
 package com.beditsch.project.controller;
 
+import com.beditsch.project.dto.OrderRequest;
 import com.beditsch.project.exception.*;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Order;
@@ -42,38 +43,38 @@ public class OrderController {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            path = "{restaurantId}"
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Order createNewOrder(@RequestBody Order newOrder, @PathVariable int restaurantId) {
-        if(newOrder.getTable() == null)
+    public Order createNewOrder(@RequestBody OrderRequest orderRequest) {
+        if(orderRequest.getTableId() == null)
             throw new BadOrderRequestException();
 
         //If  restaurant does not exist
-        if(!restaurantService.restaurantExists(restaurantId))
+        if(!restaurantService.restaurantExists(orderRequest.getRestaurantId()))
             throw new RestaurantNotFoundException();
 
         //If table does not belong to this restaurant
-        Table table = tableService.getTableById(newOrder.getTable().getId());
-        if(table.getRestaurant().getId() != restaurantId)
+        Table table = tableService.getTableById(orderRequest.getTableId());
+        if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
             throw new TableNotFoundException();
-        newOrder.setTable(table);
+
+        Order order = new Order();
+        order.setTable(table);
 
         //If any of the meals does not belong to this restaurant
         Meal temporary;
         List<Meal> fullMealList = new ArrayList<>();
-        for(Meal temp : newOrder.getMealList()) {
-            temporary = mealService.getMealById(temp.getId());
+        for(Integer temp : orderRequest.getMealsIdList()) {
+            temporary = mealService.getMealById(temp);
 
-            if ((temporary.getRestaurant().getId() != restaurantId) || !temporary.isAvailable())
+            if ((temporary.getRestaurant().getId() != orderRequest.getRestaurantId()) || !temporary.isAvailable())
                 throw new MealNotFoundException();
 
             fullMealList.add(temporary);
         }
-        newOrder.setMealList(fullMealList);
-
-        newOrder.setRestaurant(restaurantService.getRestaurantById(restaurantId));
-        return orderService.createOrder(newOrder);
+        order.setMealList(fullMealList);
+        order.setRestaurant(restaurantService.getRestaurantById(orderRequest.getRestaurantId()));
+        return orderService.createOrder(order);
     }
 
     @RequestMapping(
