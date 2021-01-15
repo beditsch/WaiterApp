@@ -110,12 +110,15 @@ public class OrderController {
             throw new OrderCannotBeUpdatedException();
         }
 
-        //If table does not belong to this restaurant
-        Table table = tableService.getTableById(orderRequest.getTableId());
-        if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
-            throw new TableNotFoundException();
+        //if the tableId is updated
+        if(order.getTable().getId() != orderRequest.getTableId()) {
+            //If table does not belong to this restaurant
+            Table table = tableService.getTableById(orderRequest.getTableId());
+            if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
+                throw new TableNotFoundException();
 
-        order.setTable(table);
+            order.setTable(table);
+        }
 
         //If any of the meals does not belong to this restaurant
         Meal temporary;
