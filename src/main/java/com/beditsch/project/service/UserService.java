@@ -2,6 +2,7 @@ package com.beditsch.project.service;
 
 import com.beditsch.project.dto.UserSignUpRequest;
 import com.beditsch.project.dto.UserSignUpResponse;
+import com.beditsch.project.exception.UsernameAlreadyExistsException;
 import com.beditsch.project.model.User;
 import com.beditsch.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class UserService implements UserDetailsService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserSignUpResponse createUser(UserSignUpRequest newUser) {
+        if (userRepository.findByUsername(newUser.getUsername()) != null) {
+            throw new UsernameAlreadyExistsException();
+        }
+
         User user = new User();
         user.setUsername(newUser.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
@@ -41,6 +46,10 @@ public class UserService implements UserDetailsService {
          if (user == null) throw new UsernameNotFoundException(username);
 
         return user;
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
 

@@ -2458,3 +2458,7 @@ SELECT * FROM meals WHERE restauratidt=1 [42122-200]
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:830)
+2021-01-15 17:56:05 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "RESTAURANT" nie istnieje
+Table "RESTAURANT" not found; SQL statement:
+DELETE FROM restaurant WHERE restaurant_id=5 [42102-200]

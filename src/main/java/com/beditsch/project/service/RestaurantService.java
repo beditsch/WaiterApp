@@ -1,5 +1,6 @@
 package com.beditsch.project.service;
 
+import com.beditsch.project.dto.RestaurantRequest;
 import com.beditsch.project.exception.OrderNotFoundException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
 import com.beditsch.project.model.Order;
@@ -29,6 +30,10 @@ public class RestaurantService {
 
     public boolean restaurantExists(Integer restaurantId) {
         return restaurantRepository.existsById(restaurantId);
+    }
+
+    public Restaurant createRestaurant(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
     }
 
 }
