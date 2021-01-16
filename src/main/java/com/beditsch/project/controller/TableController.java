@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class TableController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             path = "{tableId}"
     )
-    public Table getTableById(@PathVariable("tableId") int tableId) {
+    public Table getTableById(@PathVariable("tableId") @NotNull int tableId) {
         return tableService.getTableById(tableId);
     }
 
@@ -48,15 +49,26 @@ public class TableController {
         if (restaurant == null)
             throw new RestaurantNotFoundException();
 
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<User> staff = restaurant.getStaff();
-        for (User temp : staff) {
-            if (temp.getUsername().equals(username)) {
-                Table table = new Table();
-                table.setRestaurant(restaurant);
-                return tableService.createTable(table);
-            }
-        }
-        throw new AccessDeniedException();
+        if(!restaurantService.checkOwnership(restaurant))
+            throw new AccessDeniedException();
+
+        Table table = new Table();
+        table.setRestaurant(restaurant);
+        return tableService.createTable(table);
+
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "{tableId}"
+    )
+    public void removeTableById(@PathVariable("tableId") @NotNull int tableId) {
+        Table table = getTableById(tableId);
+
+        if(!restaurantService.checkOwnership(table.getRestaurant()))
+            throw new AccessDeniedException();
+
+        table = tableService.detachOrders(table);
+        tableService.deleteTableById(table.getId());
     }
 }

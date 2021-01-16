@@ -46,7 +46,7 @@ CREATE TABLE orders
         CONSTRAINT orders_PK PRIMARY KEY,
     status        NUMBER(4) DEFAULT 0,
     restaurant_id NUMBER(4) NOT NULL REFERENCES restaurants (restaurant_id),
-    table_id      NUMBER(4) NOT NULL REFERENCES tables (table_id)
+    table_id      NUMBER(4) REFERENCES tables (table_id)
 );
 
 -- CREATE TABLE order_positions

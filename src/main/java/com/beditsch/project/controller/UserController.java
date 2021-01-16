@@ -22,7 +22,6 @@ public class UserController {
     )
     public UserSignUpResponse createUser(@RequestBody UserSignUpRequest userSignUpRequest) {
 
-
         UserSignUpResponse userSignUpResponse = userService.createUser(userSignUpRequest);
 
         return userSignUpResponse;
