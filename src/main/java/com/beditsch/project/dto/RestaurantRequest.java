@@ -3,7 +3,6 @@ package com.beditsch.project.dto;
 public class RestaurantRequest {
     private String name;
 
-
     public String getName() {
         return name;
     }

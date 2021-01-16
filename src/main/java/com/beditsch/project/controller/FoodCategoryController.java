@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,9 +33,7 @@ public class FoodCategoryController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public FoodCategory createFoodCategory (@RequestBody FoodCategoryRequest foodCategoryRequest) {
-        if (foodCategoryRequest.getRestaurantId() == null)
-            throw new FoodCategoryRequestInvalidException();
+    public FoodCategory createFoodCategory (@Valid @RequestBody FoodCategoryRequest foodCategoryRequest) {
 
         Restaurant restaurant = restaurantService.getRestaurantById(foodCategoryRequest.getRestaurantId());
         if(restaurant == null)

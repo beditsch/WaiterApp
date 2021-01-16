@@ -1,6 +1,9 @@
 package com.beditsch.project.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class FoodCategoryRequest {
+    @NotNull(message = "Please provide a valid restaurant ID.")
     private Integer restaurantId;
     private String name;
     private Integer priority;

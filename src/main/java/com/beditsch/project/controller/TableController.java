@@ -12,8 +12,10 @@ import com.beditsch.project.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,7 @@ public class TableController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Table createTable (@RequestBody TableRequest tableRequest) {
-        if (tableRequest.getRestaurantId() == null)
-            throw new TableRequestInvalidException();
+    public Table createTable (@Valid @RequestBody TableRequest tableRequest) {
 
         Restaurant restaurant = restaurantService.getRestaurantById(tableRequest.getRestaurantId());
         if (restaurant == null)

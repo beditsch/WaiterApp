@@ -1,10 +1,14 @@
 package com.beditsch.project.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OrderRequest {
+    @NotNull(message = "Please provide a valid restaurant ID.")
     private Integer restaurantId;
+    @NotNull(message = "Please provide a valid table ID.")
     private Integer tableId;
+    @NotNull(message = "Please provide a valid meals ID list.")
     private List<Integer> mealsIdList;
 
 

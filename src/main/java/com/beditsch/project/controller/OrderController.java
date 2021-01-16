@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +46,7 @@ public class OrderController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Order createNewOrder(@RequestBody OrderRequest orderRequest) {
-        if(orderRequest.getTableId() == null)
-            throw new BadOrderRequestException();
+    public Order createNewOrder(@Valid @RequestBody OrderRequest orderRequest) {
 
         //If  restaurant does not exist
         if(!restaurantService.restaurantExists(orderRequest.getRestaurantId()))
