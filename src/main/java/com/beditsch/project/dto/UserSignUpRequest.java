@@ -1,8 +1,12 @@
 package com.beditsch.project.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class UserSignUpRequest {
+    @NotEmpty(message = "Please provide a valid username.")
     private String username;
     private String email;
+    @NotEmpty(message = "Please provide a valid password.")
     private String password;
 
 
