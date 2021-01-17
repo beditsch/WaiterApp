@@ -38,16 +38,7 @@ public class MealController {
 
         Restaurant restaurant = restaurantService.getRestaurantById(mealRequest.getRestaurantId());
 
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<User> staff = restaurant.getStaff();
-        boolean userHasPermissions = false;
-        for (User temp : staff) {
-            if (temp.getUsername().equals(username)) {
-                userHasPermissions = true;
-                break;
-            }
-        }
-        if (!userHasPermissions)
+        if (!restaurantService.checkOwnership(restaurant))
             throw new AccessDeniedException();
 
         FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(mealRequest.getFoodCategoryId());

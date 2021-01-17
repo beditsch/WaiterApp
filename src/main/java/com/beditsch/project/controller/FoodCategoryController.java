@@ -3,6 +3,7 @@ package com.beditsch.project.controller;
 import com.beditsch.project.dto.FoodCategoryRequest;
 import com.beditsch.project.dto.FoodCategoryUpdateRequest;
 import com.beditsch.project.exception.AccessDeniedException;
+import com.beditsch.project.exception.FoodCategoryHasMealsAssignedException;
 import com.beditsch.project.exception.FoodCategoryRequestInvalidException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
 import com.beditsch.project.model.FoodCategory;
@@ -67,5 +68,21 @@ public class FoodCategoryController {
         if (priority != null) foodCategory.setPriority(priority);
 
         return foodCategoryService.updateFoodCategory(foodCategory);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "{foodCategoryId}"
+    )
+    public void deleteFoodCategoryById(@PathVariable @NotNull Integer foodCategoryId) {
+        FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(foodCategoryId);
+
+        if(!restaurantService.checkOwnership(foodCategory.getRestaurant()))
+            throw new AccessDeniedException();
+
+        if(!foodCategory.getMealList().isEmpty())
+            throw new FoodCategoryHasMealsAssignedException();
+
+        foodCategoryService.deleteFoodCategoryById(foodCategoryId);
     }
 }
