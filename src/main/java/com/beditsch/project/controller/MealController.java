@@ -1,23 +1,23 @@
 package com.beditsch.project.controller;
 
 import com.beditsch.project.dto.MealRequest;
+import com.beditsch.project.dto.MealUpdateRequest;
 import com.beditsch.project.exception.AccessDeniedException;
 import com.beditsch.project.model.FoodCategory;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Restaurant;
 import com.beditsch.project.model.User;
+import com.beditsch.project.repository.MealRepository;
 import com.beditsch.project.service.FoodCategoryService;
 import com.beditsch.project.service.MealService;
 import com.beditsch.project.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -54,5 +54,34 @@ public class MealController {
         meal.setAvailable(available);
 
         return mealService.createMeal(meal);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "{mealId}"
+    )
+    public Meal updateMealById(@RequestBody MealUpdateRequest mealUpdateRequest, @PathVariable @NotNull Integer mealId) {
+        Meal meal = mealService.getMealById(mealId);
+
+        if(!restaurantService.checkOwnership(meal.getRestaurant()))
+            throw new AccessDeniedException();
+
+        Integer foodCategoryId = mealUpdateRequest.getFoodCategoryId();
+        if(foodCategoryId != null) {
+            FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(foodCategoryId);
+            meal.setFoodCategory(foodCategory);
+        }
+
+        String name = mealUpdateRequest.getName();
+        if (name != null) meal.setName(name);
+
+        Double price = mealUpdateRequest.getPrice();
+        if (price != null) meal.setPrice(price);
+
+        Boolean available = mealUpdateRequest.getAvailable();
+        if(available != null) meal.setAvailable(available);
+
+        return mealService.updateMeal(meal);
     }
 }

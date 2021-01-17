@@ -28,4 +28,8 @@ public class MealService {
     public Meal createMeal(Meal meal) {
         return mealRepository.save(meal);
     }
+
+    public Meal updateMeal(Meal meal) {
+        return mealRepository.save(meal);
+    }
 }
