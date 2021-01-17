@@ -3,10 +3,7 @@ package com.beditsch.project.service;
 import com.beditsch.project.dto.RestaurantRequest;
 import com.beditsch.project.exception.OrderNotFoundException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
-import com.beditsch.project.model.Order;
-import com.beditsch.project.model.Restaurant;
-import com.beditsch.project.model.Table;
-import com.beditsch.project.model.User;
+import com.beditsch.project.model.*;
 import com.beditsch.project.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,6 +44,10 @@ public class RestaurantService {
             if (temp.getUsername().equals(username)) return true;
         }
         return false;
+    }
+
+    public Restaurant updateRestaurant(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
     }
 
 }
