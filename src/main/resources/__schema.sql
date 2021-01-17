@@ -44,6 +44,7 @@ CREATE TABLE orders
 (
     order_id      NUMBER(4) AUTO_INCREMENT
         CONSTRAINT orders_PK PRIMARY KEY,
+    public_order_id VARCHAR(40) NOT NULL,
     status        NUMBER(4) DEFAULT 0,
     restaurant_id NUMBER(4) NOT NULL REFERENCES restaurants (restaurant_id),
     table_id      NUMBER(4) REFERENCES tables (table_id)

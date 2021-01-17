@@ -14,6 +14,9 @@ public class Order {
     @Column(name = "order_id")
     private int id;
 
+    @Column(name = "public_order_id")
+    private String orderId;
+
     @Column(name = "status")
     private int status;
 
@@ -49,6 +52,14 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public int getStatus() {

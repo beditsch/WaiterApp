@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,28 +80,28 @@ public class OrderController {
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
-            path = "{orderId}"
+            path = "{publicOrderId}"
     )
-    public Order findOrderById(@PathVariable("orderId") int orderId) {
-        return orderService.getOrderById(orderId);
+    public Order findOrderByPublicId(@PathVariable("publicOrderId") @NotNull String publicOrderId) {
+        return orderService.getOrderByPublicId(publicOrderId);
     }
 
     @RequestMapping(
             method = RequestMethod.DELETE,
-            path = "{orderId}"
+            path = "{publicOrderId}"
     )
-    public void removeOrderById(@PathVariable("orderId") int orderId) {
+    public void removeOrderByPublicId(@PathVariable("publicOrderId") String publicOrderId) {
 
-        orderService.deleteOrderById(orderId);
+        orderService.deleteOrderByPublicId(publicOrderId);
     }
 
     @RequestMapping(
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            path = "{orderId}"
+            path = "{publicOrderId}"
     )
-    public Order updateOrderById(@PathVariable("orderId") int orderId, @RequestBody OrderRequest orderRequest) {
-        Order order = orderService.getOrderById(orderId);
+    public Order updateOrderByPublicId(@PathVariable("publicOrderId") @NotNull String publicOrderId, @RequestBody OrderRequest orderRequest) {
+        Order order = orderService.getOrderByPublicId(publicOrderId);
 
         if (order.getRestaurant().getId() != orderRequest.getRestaurantId())
             throw new BadOrderRequestException();
