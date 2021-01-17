@@ -4,6 +4,7 @@ import com.beditsch.project.exception.FoodCategoryNotFoundException;
 import com.beditsch.project.exception.MealNotFoundException;
 import com.beditsch.project.model.FoodCategory;
 import com.beditsch.project.model.Meal;
+import com.beditsch.project.model.Order;
 import com.beditsch.project.repository.FoodCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class FoodCategoryService {
             return foodCategory.get();
         else
             throw new FoodCategoryNotFoundException();
+    }
+
+    public FoodCategory updateFoodCategory(FoodCategory foodCategory) {
+        return foodCategoryRepository.save(foodCategory);
     }
 }

@@ -46,8 +46,6 @@ public class TableController {
     public Table createTable (@Valid @RequestBody TableRequest tableRequest) {
 
         Restaurant restaurant = restaurantService.getRestaurantById(tableRequest.getRestaurantId());
-        if (restaurant == null)
-            throw new RestaurantNotFoundException();
 
         if(!restaurantService.checkOwnership(restaurant))
             throw new AccessDeniedException();
