@@ -60,9 +60,10 @@ CREATE TABLE orders
 
 CREATE TABLE order_positions
 (
+    order_position_id NUMBER(4) AUTO_INCREMENT CONSTRAINT order_positions_PK PRIMARY KEY,
     order_id NUMBER(4) NOT NULL REFERENCES orders (order_id),
     meal_id  NUMBER(4) NOT NULL REFERENCES meals (meal_id),
-    CONSTRAINT order_positions_PK PRIMARY KEY (order_id, meal_id)
+    quantity NUMBER(4) DEFAULT 1
 );
 
 CREATE TABLE users

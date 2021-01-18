@@ -1,15 +1,18 @@
 package com.beditsch.project.controller;
 
+import com.beditsch.project.dto.OrderPositionRequest;
 import com.beditsch.project.dto.OrderRequest;
 import com.beditsch.project.exception.*;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Order;
+import com.beditsch.project.model.OrderPosition;
 import com.beditsch.project.model.Table;
 import com.beditsch.project.service.MealService;
 import com.beditsch.project.service.OrderService;
 import com.beditsch.project.service.RestaurantService;
 import com.beditsch.project.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +35,18 @@ public class OrderController {
     private TableService tableService;
 
 
-
+//    @RequestMapping(
+//            method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            path = "test"
+//    )
+//    public OrderRequest test() {
+//        OrderRequest orderRequest = new OrderRequest();
+//        Pair<Integer, Integer> p1 = new Pair<Integer, Integer>();
+//
+//
+//        return new OrderRequest();
+//    }
 
     @RequestMapping(
             method = RequestMethod.GET,
@@ -50,29 +64,35 @@ public class OrderController {
     public Order createNewOrder(@Valid @RequestBody OrderRequest orderRequest) {
 
         //If  restaurant does not exist
-        if(!restaurantService.restaurantExists(orderRequest.getRestaurantId()))
+        if (!restaurantService.restaurantExists(orderRequest.getRestaurantId()))
             throw new RestaurantNotFoundException();
 
         //If table does not belong to this restaurant
         Table table = tableService.getTableById(orderRequest.getTableId());
-        if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
+        if (table.getRestaurant().getId() != orderRequest.getRestaurantId())
             throw new TableNotFoundException();
 
         Order order = new Order();
         order.setTable(table);
 
-        //If any of the meals does not belong to this restaurant
-        Meal temporary;
-        List<Meal> fullMealList = new ArrayList<>();
-        for(Integer temp : orderRequest.getMealsIdList()) {
-            temporary = mealService.getMealById(temp);
+        OrderPosition tempOrderPosition;
+        Meal tempMeal;
+        List<OrderPosition> fullOrderPositionsList = new ArrayList<>();
+        for (OrderPositionRequest temp : orderRequest.getOrderPositionsList()) {
+            tempOrderPosition = new OrderPosition();
+            tempMeal = mealService.getMealById(temp.getMealId());
 
-            if ((temporary.getRestaurant().getId() != orderRequest.getRestaurantId()) || !temporary.isAvailable())
+            if ((tempMeal.getRestaurant().getId() != orderRequest.getRestaurantId()) || !tempMeal.isAvailable())
                 throw new MealNotFoundException();
 
-            fullMealList.add(temporary);
+            tempOrderPosition.setMeal(tempMeal);
+            tempOrderPosition.setOrder(order);
+            tempOrderPosition.setQuantity(temp.getQuantity());
+
+            fullOrderPositionsList.add(tempOrderPosition);
         }
-        order.setMealList(fullMealList);
+
+        order.setOrderPositions(fullOrderPositionsList);
         order.setRestaurant(restaurantService.getRestaurantById(orderRequest.getRestaurantId()));
         return orderService.createOrder(order);
     }
@@ -111,30 +131,34 @@ public class OrderController {
         }
 
         //if the tableId is updated
-        if(order.getTable().getId() != orderRequest.getTableId()) {
+        if (order.getTable().getId() != orderRequest.getTableId()) {
             //If table does not belong to this restaurant
             Table table = tableService.getTableById(orderRequest.getTableId());
-            if(table.getRestaurant().getId() != orderRequest.getRestaurantId())
+            if (table.getRestaurant().getId() != orderRequest.getRestaurantId())
                 throw new TableNotFoundException();
 
             order.setTable(table);
         }
 
-        //If any of the meals does not belong to this restaurant
-        Meal temporary;
-        List<Meal> fullMealList = new ArrayList<>();
-        for(Integer temp : orderRequest.getMealsIdList()) {
-            temporary = mealService.getMealById(temp);
+        OrderPosition tempOrderPosition;
+        Meal tempMeal;
+        List<OrderPosition> fullOrderPositionsList = new ArrayList<>();
+        for (OrderPositionRequest temp : orderRequest.getOrderPositionsList()) {
+            tempOrderPosition = new OrderPosition();
+            tempMeal = mealService.getMealById(temp.getMealId());
 
-            if ((temporary.getRestaurant().getId() != orderRequest.getRestaurantId()) || !temporary.isAvailable())
+            if ((tempMeal.getRestaurant().getId() != orderRequest.getRestaurantId()) || !tempMeal.isAvailable())
                 throw new MealNotFoundException();
 
-            fullMealList.add(temporary);
+            tempOrderPosition.setMeal(tempMeal);
+            tempOrderPosition.setOrder(order);
+            tempOrderPosition.setQuantity(temp.getQuantity());
+
+            fullOrderPositionsList.add(tempOrderPosition);
         }
 
-        order.setMealList(fullMealList);
+        order.setOrderPositions(fullOrderPositionsList);
         return orderService.updateOrder(order);
-
 
     }
 

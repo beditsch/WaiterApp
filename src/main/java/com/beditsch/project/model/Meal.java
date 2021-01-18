@@ -29,9 +29,9 @@ public class Meal {
     @JsonIgnore
     private Restaurant restaurant;
 
-    @ManyToMany(mappedBy = "mealList", cascade=CascadeType.ALL)
+    @OneToMany(targetEntity = OrderPosition.class, cascade=CascadeType.ALL, mappedBy = "meal")
     @JsonIgnore
-    private List<Order> orderList;
+    private List<OrderPosition> orderList;
 
     @ManyToOne
     @JoinColumn(name="food_category_id")
@@ -84,11 +84,11 @@ public class Meal {
         this.restaurant = restaurant;
     }
 
-    public List<Order> getOrderList() {
+    public List<OrderPosition> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(List<Order> orderList) {
+    public void setOrderList(List<OrderPosition> orderList) {
         this.orderList = orderList;
     }
 

@@ -39,11 +39,11 @@ INSERT INTO tables(restaurant_id) VALUES (3);
 INSERT INTO tables(restaurant_id) VALUES (3);
 INSERT INTO tables(restaurant_id) VALUES (4);
 
-INSERT INTO orders(restaurant_id, table_id) VALUES (1, 1);
-INSERT INTO orders(restaurant_id, table_id) VALUES (1, 1);
-INSERT INTO orders(restaurant_id, table_id) VALUES (1, 2);
+INSERT INTO orders(restaurant_id, table_id, public_order_id) VALUES (1, 1, 'byuvewbkjawndiuawd');
+INSERT INTO orders(restaurant_id, table_id, public_order_id) VALUES (1, 1, 'grstyebsgvafe');
+INSERT INTO orders(restaurant_id, table_id, public_order_id) VALUES (1, 2, 'ervsacervstbyndbs');
 
-INSERT INTO order_positions(order_id, meal_id) VALUES (1, 5);
+INSERT INTO order_positions(order_id, meal_id, quantity) VALUES (1, 5, 1);
 INSERT INTO order_positions(order_id, meal_id) VALUES (1, 1);
 INSERT INTO order_positions(order_id, meal_id) VALUES (2, 1);
-INSERT INTO order_positions(order_id, meal_id) VALUES (3, 2);
+INSERT INTO order_positions(order_id, meal_id) VALUES (2, 2);

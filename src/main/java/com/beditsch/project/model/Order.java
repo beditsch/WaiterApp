@@ -29,15 +29,8 @@ public class Order {
     @JoinColumn(name="table_id")
     private Table table;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_positions",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "meal_id")
-    )
-    private List<Meal> mealList;
-
-
+    @OneToMany(targetEntity = OrderPosition.class, cascade = CascadeType.ALL, mappedBy = "order")
+    private List<OrderPosition> orderPositions;
 
 
 
@@ -86,11 +79,11 @@ public class Order {
         this.table = table;
     }
 
-    public List<Meal> getMealList() {
-        return mealList;
+    public List<OrderPosition> getOrderPositions() {
+        return orderPositions;
     }
 
-    public void setMealList(List<Meal> mealList) {
-        this.mealList = mealList;
+    public void setOrderPositions(List<OrderPosition> orderPositions) {
+        this.orderPositions = orderPositions;
     }
 }

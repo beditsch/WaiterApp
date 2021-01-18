@@ -1,15 +1,17 @@
 package com.beditsch.project.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class OrderRequest {
+
     @NotNull(message = "Please provide a valid restaurant ID.")
     private Integer restaurantId;
     @NotNull(message = "Please provide a valid table ID.")
     private Integer tableId;
-    @NotNull(message = "Please provide a valid meals ID list.")
-    private List<Integer> mealsIdList;
+    @NotNull(message = "Please provide a valid  orderPositions list.")
+    private List<@Valid OrderPositionRequest> orderPositionsList;
 
 
 
@@ -19,10 +21,10 @@ public class OrderRequest {
     public OrderRequest() {
     }
 
-    public OrderRequest(Integer restaurantId, Integer tableId, List<Integer> mealsIdList) {
+    public OrderRequest(@NotNull(message = "Please provide a valid restaurant ID.") Integer restaurantId, @NotNull(message = "Please provide a valid table ID.") Integer tableId, @NotNull(message = "Please provide a valid  (meal, quantity) list.") List<OrderPositionRequest> orderPositionsList) {
         this.restaurantId = restaurantId;
         this.tableId = tableId;
-        this.mealsIdList = mealsIdList;
+        this.orderPositionsList = orderPositionsList;
     }
 
     public Integer getRestaurantId() {
@@ -41,11 +43,11 @@ public class OrderRequest {
         this.tableId = tableId;
     }
 
-    public List<Integer> getMealsIdList() {
-        return mealsIdList;
+    public List<OrderPositionRequest> getOrderPositionsList() {
+        return orderPositionsList;
     }
 
-    public void setMealsIdList(List<Integer> mealsIdList) {
-        this.mealsIdList = mealsIdList;
+    public void setOrderPositionsList(List<OrderPositionRequest> orderPositionsList) {
+        this.orderPositionsList = orderPositionsList;
     }
 }
