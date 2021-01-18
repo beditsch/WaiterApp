@@ -2,7 +2,9 @@ package com.beditsch.project.service;
 
 import com.beditsch.project.dto.UserSignUpRequest;
 import com.beditsch.project.dto.UserSignUpResponse;
+import com.beditsch.project.exception.MealNotFoundException;
 import com.beditsch.project.exception.UsernameAlreadyExistsException;
+import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.User;
 import com.beditsch.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -52,5 +55,13 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+
+    public User getUserById(Integer userId){
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent())
+            return user.get();
+        else
+            throw new MealNotFoundException();
+    }
 
 }

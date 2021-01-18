@@ -1,8 +1,8 @@
 package com.beditsch.project.service;
 
-import com.beditsch.project.exception.MealNotFoundException;
-import com.beditsch.project.exception.RestaurantNotFoundException;
+import com.beditsch.project.exception.*;
 import com.beditsch.project.model.Meal;
+import com.beditsch.project.model.Order;
 import com.beditsch.project.model.Restaurant;
 import com.beditsch.project.model.Table;
 import com.beditsch.project.repository.MealRepository;
@@ -31,5 +31,16 @@ public class MealService {
 
     public Meal updateMeal(Meal meal) {
         return mealRepository.save(meal);
+    }
+
+    public void deleteMealById(Integer mealId){
+        Optional<Meal> meal = mealRepository.findById(mealId);
+        if (meal.isEmpty()) {
+            throw new MealNotFoundException();
+        }
+        else if (!meal.get().getOrderList().isEmpty()) {
+            throw new MealCannotBeDeletedException();
+        }
+        mealRepository.deleteById(mealId);
     }
 }

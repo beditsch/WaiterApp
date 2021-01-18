@@ -6,10 +6,7 @@ import com.beditsch.project.exception.AccessDeniedException;
 import com.beditsch.project.exception.FoodCategoryHasMealsAssignedException;
 import com.beditsch.project.exception.FoodCategoryRequestInvalidException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
-import com.beditsch.project.model.FoodCategory;
-import com.beditsch.project.model.Restaurant;
-import com.beditsch.project.model.Table;
-import com.beditsch.project.model.User;
+import com.beditsch.project.model.*;
 import com.beditsch.project.service.FoodCategoryService;
 import com.beditsch.project.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +81,18 @@ public class FoodCategoryController {
             throw new FoodCategoryHasMealsAssignedException();
 
         foodCategoryService.deleteFoodCategoryById(foodCategoryId);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "{foodCategoryId}"
+    )
+    public FoodCategory getFoodCategoryById(@PathVariable @NotNull Integer foodCategoryId) {
+        FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(foodCategoryId);
+
+        if(!restaurantService.checkOwnership(foodCategory.getRestaurant()))
+            throw new AccessDeniedException();
+
+        return foodCategory;
     }
 }

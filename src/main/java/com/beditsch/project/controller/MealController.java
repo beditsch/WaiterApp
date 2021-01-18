@@ -84,4 +84,26 @@ public class MealController {
 
         return mealService.updateMeal(meal);
     }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            path = "{mealId}"
+    )
+    public void removeMealById(@PathVariable("mealId") @NotNull Integer mealId) {
+        mealService.deleteMealById(mealId);
+    }
+
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "{mealId}"
+    )
+    public Meal getMealById(@PathVariable @NotNull Integer mealId) {
+        Meal meal = mealService.getMealById(mealId);
+
+        if(!restaurantService.checkOwnership(meal.getRestaurant()))
+            throw new AccessDeniedException();
+
+        return meal;
+    }
 }

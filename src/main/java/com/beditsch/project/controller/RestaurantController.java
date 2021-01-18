@@ -81,4 +81,17 @@ public class RestaurantController {
         return restaurantService.updateRestaurant(restaurant);
     }
 
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "{restaurantId}"
+    )
+    public Restaurant getRestaurantById(@PathVariable @NotNull Integer restaurantId) {
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+
+        if(!restaurantService.checkOwnership(restaurant))
+            throw new AccessDeniedException();
+
+        return restaurant;
+    }
+
 }

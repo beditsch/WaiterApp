@@ -34,14 +34,6 @@ public class OrderController {
     @Autowired
     private TableService tableService;
 
-    @RequestMapping(
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            path = "all"
-    )
-    public List<Order> findAllOrders() {
-        return orderService.getAllOrders();
-    }
 
     @RequestMapping(
             method = RequestMethod.POST,
@@ -89,6 +81,7 @@ public class OrderController {
             path = "{publicOrderId}"
     )
     public Order findOrderByPublicId(@PathVariable("publicOrderId") @NotNull String publicOrderId) {
+
         return orderService.getOrderByPublicId(publicOrderId);
     }
 
@@ -96,7 +89,7 @@ public class OrderController {
             method = RequestMethod.DELETE,
             path = "{publicOrderId}"
     )
-    public void removeOrderByPublicId(@PathVariable("publicOrderId") String publicOrderId) {
+    public void removeOrderByPublicId(@PathVariable("publicOrderId") @NotNull String publicOrderId) {
 
         orderService.deleteOrderByPublicId(publicOrderId);
     }

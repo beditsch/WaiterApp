@@ -4,6 +4,7 @@ import com.beditsch.project.dto.TableRequest;
 import com.beditsch.project.exception.AccessDeniedException;
 import com.beditsch.project.exception.RestaurantNotFoundException;
 import com.beditsch.project.exception.TableRequestInvalidException;
+import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Restaurant;
 import com.beditsch.project.model.Table;
 import com.beditsch.project.model.User;
@@ -36,7 +37,13 @@ public class TableController {
             path = "{tableId}"
     )
     public Table getTableById(@PathVariable("tableId") @NotNull int tableId) {
-        return tableService.getTableById(tableId);
+
+        Table table = tableService.getTableById(tableId);
+
+        if(!restaurantService.checkOwnership(table.getRestaurant()))
+            throw new AccessDeniedException();
+
+        return table;
     }
 
     @RequestMapping(
