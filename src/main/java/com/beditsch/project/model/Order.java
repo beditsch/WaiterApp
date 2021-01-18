@@ -20,7 +20,7 @@ public class Order {
     @Column(name = "status")
     private int status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
     @JsonIgnore
     private Restaurant restaurant;

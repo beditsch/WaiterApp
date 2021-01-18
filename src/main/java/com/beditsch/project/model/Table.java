@@ -14,12 +14,12 @@ public class Table {
     @Column(name = "table_id")
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
     @JsonIgnore
     private Restaurant restaurant;
 
-    @OneToMany(targetEntity = Order.class, cascade=CascadeType.ALL, mappedBy = "table")
+    @OneToMany(targetEntity = Order.class, cascade=CascadeType.ALL, mappedBy = "table", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Order> orderList;
 

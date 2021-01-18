@@ -24,12 +24,12 @@ public class Meal {
     @Column(name = "is_available")
     private boolean available;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
     @JsonIgnore
     private Restaurant restaurant;
 
-    @OneToMany(targetEntity = OrderPosition.class, cascade=CascadeType.ALL, mappedBy = "meal")
+    @OneToMany(targetEntity = OrderPosition.class, cascade=CascadeType.ALL, mappedBy = "meal", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<OrderPosition> orderList;
 

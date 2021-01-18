@@ -1,6 +1,7 @@
 package com.beditsch.project.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -20,11 +21,11 @@ public class FoodCategory {
     @Column(name = "priority")
     private int priority;
 
-    @OneToMany(targetEntity = Meal.class, cascade=CascadeType.ALL, mappedBy = "foodCategory")
+    @OneToMany(targetEntity = Meal.class, cascade=CascadeType.ALL, mappedBy = "foodCategory", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Meal> mealList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
     @JsonIgnore
     private Restaurant restaurant;

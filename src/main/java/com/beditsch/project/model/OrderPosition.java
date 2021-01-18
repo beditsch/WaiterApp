@@ -13,7 +13,7 @@ public class OrderPosition {
     @Column(name = "order_position_id")
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     @JsonIgnore
     private Order order;
