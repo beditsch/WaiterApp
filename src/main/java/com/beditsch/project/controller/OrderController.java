@@ -34,20 +34,6 @@ public class OrderController {
     @Autowired
     private TableService tableService;
 
-
-//    @RequestMapping(
-//            method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            path = "test"
-//    )
-//    public OrderRequest test() {
-//        OrderRequest orderRequest = new OrderRequest();
-//        Pair<Integer, Integer> p1 = new Pair<Integer, Integer>();
-//
-//
-//        return new OrderRequest();
-//    }
-
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
