@@ -26,7 +26,7 @@ public class Restaurant {
     private List<Meal> menu;
 
 
-    @OneToMany(targetEntity = Order.class, cascade=CascadeType.ALL, mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Order.class, cascade=CascadeType.ALL, mappedBy = "restaurant")
     private List<Order> orderList;
 
     @OneToMany(targetEntity = Table.class, cascade=CascadeType.ALL, mappedBy = "restaurant")

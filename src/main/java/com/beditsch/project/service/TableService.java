@@ -25,11 +25,8 @@ public class TableService {
     private OrderService orderService;
 
     public Table getTableById(Integer tableId){
-        Optional<Table> table = tableRepository.findById(tableId);
-        if (table.isPresent())
-            return table.get();
-        else
-            throw new TableNotFoundException();
+        Optional<Table> table = Optional.ofNullable(tableRepository.findById(tableId).orElseThrow(TableNotFoundException::new));
+        return table.get();
     }
 
     public Table createTable(Table table) {

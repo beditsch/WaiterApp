@@ -37,10 +37,7 @@ public class OrderService {
 
     public Order getOrderByPublicId(String publicOrderId){
         Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderId(publicOrderId));
-        if (order.isPresent())
-            return order.get();
-        else
-            throw new OrderNotFoundException();
+        return order.get();
     }
 
     public void deleteOrderById(Integer orderId){

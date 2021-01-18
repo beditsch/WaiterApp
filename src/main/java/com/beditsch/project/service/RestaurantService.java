@@ -22,11 +22,8 @@ public class RestaurantService {
 
 
     public Restaurant getRestaurantById(Integer restaurantId){
-        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
-        if (restaurant.isPresent())
-            return restaurant.get();
-        else
-            throw new RestaurantNotFoundException();
+        Optional<Restaurant> restaurant = Optional.ofNullable(restaurantRepository.findById(restaurantId).orElseThrow(RestaurantNotFoundException::new));
+        return restaurant.get();
     }
 
     public boolean restaurantExists(Integer restaurantId) {

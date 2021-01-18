@@ -3,6 +3,7 @@ package com.beditsch.project.service;
 import com.beditsch.project.dto.UserSignUpRequest;
 import com.beditsch.project.dto.UserSignUpResponse;
 import com.beditsch.project.exception.MealNotFoundException;
+import com.beditsch.project.exception.UserNotFoundException;
 import com.beditsch.project.exception.UsernameAlreadyExistsException;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.User;
@@ -57,11 +58,8 @@ public class UserService implements UserDetailsService {
 
 
     public User getUserById(Integer userId){
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent())
-            return user.get();
-        else
-            throw new MealNotFoundException();
+        Optional<User> user = Optional.ofNullable(userRepository.findById(userId).orElseThrow(UserNotFoundException::new));
+        return user.get();
     }
 
 }

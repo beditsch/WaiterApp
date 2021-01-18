@@ -18,11 +18,8 @@ public class MealService {
     private MealRepository mealRepository;
 
     public Meal getMealById(Integer mealId){
-        Optional<Meal> meal = mealRepository.findById(mealId);
-        if (meal.isPresent())
-            return meal.get();
-        else
-            throw new MealNotFoundException();
+        Optional<Meal> meal = Optional.ofNullable(mealRepository.findById(mealId).orElseThrow(MealNotFoundException::new));
+        return meal.get();
     }
 
     public Meal createMeal(Meal meal) {

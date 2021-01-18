@@ -24,11 +24,8 @@ public class FoodCategoryService {
     }
 
     public FoodCategory getFoodCategoryById(Integer foodCategoryId){
-        Optional<FoodCategory> foodCategory = foodCategoryRepository.findById(foodCategoryId);
-        if (foodCategory.isPresent())
-            return foodCategory.get();
-        else
-            throw new FoodCategoryNotFoundException();
+        Optional<FoodCategory> foodCategory = Optional.ofNullable(foodCategoryRepository.findById(foodCategoryId).orElseThrow(FoodCategoryNotFoundException::new));
+        return foodCategory.get();
     }
 
     public FoodCategory updateFoodCategory(FoodCategory foodCategory) {
