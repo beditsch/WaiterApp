@@ -42,7 +42,7 @@ public class RestaurantController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Restaurant createRestaurant(@RequestBody @Valid RestaurantRequest restaurantRequest) {
+     public Restaurant createRestaurant(@RequestBody @Valid RestaurantRequest restaurantRequest) {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = (User) userService.loadUserByUsername(username);
         //one restaurant per user
