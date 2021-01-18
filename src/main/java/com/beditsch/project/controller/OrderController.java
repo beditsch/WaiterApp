@@ -2,6 +2,7 @@ package com.beditsch.project.controller;
 
 import com.beditsch.project.dto.OrderPositionRequest;
 import com.beditsch.project.dto.OrderRequest;
+import com.beditsch.project.dto.OrderStatusUpdateRequest;
 import com.beditsch.project.exception.*;
 import com.beditsch.project.model.Meal;
 import com.beditsch.project.model.Order;
@@ -139,6 +140,20 @@ public class OrderController {
         order.setOrderPositions(fullOrderPositionsList);
         return orderService.updateOrder(order);
 
+    }
+
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "status/{orderId}"
+    )
+    public Order updateOrderStatus (@RequestBody @Valid OrderStatusUpdateRequest orderStatusUpdateRequest, @PathVariable @NotNull Integer orderId) {
+        Order order = orderService.getOrderById(orderId);
+        if (!restaurantService.checkOwnership(order.getRestaurant()))
+            throw new AccessDeniedException();
+
+        order.setStatus(orderStatusUpdateRequest.getOrderStatus());
+        return orderService.updateOrder(order);
     }
 
 
