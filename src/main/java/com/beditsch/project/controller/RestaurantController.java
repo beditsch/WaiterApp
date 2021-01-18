@@ -4,6 +4,7 @@ package com.beditsch.project.controller;
 import com.beditsch.project.dto.RestaurantRequest;
 import com.beditsch.project.exception.AccessDeniedException;
 import com.beditsch.project.exception.RestaurantCannotBeAsignedToUserException;
+import com.beditsch.project.model.Order;
 import com.beditsch.project.model.Restaurant;
 import com.beditsch.project.model.User;
 import com.beditsch.project.service.RestaurantService;
@@ -92,6 +93,20 @@ public class RestaurantController {
             throw new AccessDeniedException();
 
         return restaurant;
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            path = "history/{restaurantId}"
+    )
+    public List<Order> getOrderHistory(@PathVariable("restaurantId") @NotNull Integer restaurantId) {
+
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+        if(!restaurantService.checkOwnership(restaurant))
+            throw new AccessDeniedException();
+
+        return restaurant.getOrderList();
     }
 
 }

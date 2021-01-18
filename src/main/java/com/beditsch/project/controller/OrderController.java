@@ -4,17 +4,12 @@ import com.beditsch.project.dto.OrderPositionRequest;
 import com.beditsch.project.dto.OrderRequest;
 import com.beditsch.project.dto.OrderStatusUpdateRequest;
 import com.beditsch.project.exception.*;
-import com.beditsch.project.model.Meal;
-import com.beditsch.project.model.Order;
-import com.beditsch.project.model.OrderPosition;
-import com.beditsch.project.model.Table;
-import com.beditsch.project.service.MealService;
-import com.beditsch.project.service.OrderService;
-import com.beditsch.project.service.RestaurantService;
-import com.beditsch.project.service.TableService;
+import com.beditsch.project.model.*;
+import com.beditsch.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +29,8 @@ public class OrderController {
     private MealService mealService;
     @Autowired
     private TableService tableService;
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(
@@ -155,6 +152,7 @@ public class OrderController {
         order.setStatus(orderStatusUpdateRequest.getOrderStatus());
         return orderService.updateOrder(order);
     }
+
 
 
 }
